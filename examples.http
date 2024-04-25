@@ -10,13 +10,15 @@ Content-Type: application/json
 GET http://localhost:7071/prompts
 Content-Type: application/json
 Accept: application/json
+x-session-token: 450367a5-26ce-4657-86dc-e4bebe5daf8f
 
 
 ###
 
 POST http://localhost:7071/images
 Content-Type: application/json
+x-session-token: 81aca89c-61a0-4ade-a441-7a1d00d72090
 
 {
-    "prompt": "Crea una escena de un bosque encantado donde hadas y duendes juegan entre los árboles mágicos."
+    "prompt": "Crea una escena de aventura intergaláctica con naves espaciales, planetas lejanos y seres extraterrestres amigables o hostiles."
 }
