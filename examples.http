@@ -4,3 +4,19 @@ Content-Type: application/json
 {
     "email": "dh@gmail.com"
 }
+
+###
+
+GET http://localhost:7071/prompts
+Content-Type: application/json
+Accept: application/json
+
+
+###
+
+POST http://localhost:7071/images
+Content-Type: application/json
+
+{
+    "prompt": "Crea una escena de un bosque encantado donde hadas y duendes juegan entre los árboles mágicos."
+}

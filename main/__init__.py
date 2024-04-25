@@ -1,9 +1,14 @@
 import os
 import uuid
+from typing import TypeVar, Generic
 
-from fastapi import Depends, FastAPI
+from fastapi import Depends, FastAPI, status
 from pydantic import BaseModel, EmailStr
 from redis import Redis
+
+from main.prompts import generate_prompts, generate_image
+
+T = TypeVar("T")
 
 app = FastAPI()
 
@@ -27,7 +32,7 @@ class SessionInput(BaseModel):
     email: EmailStr
 
 
-@app.post("/session")
+@app.post("/session", status_code=status.HTTP_201_CREATED)
 async def crate_session(input: SessionInput, redis: Redis = Depends(get_redis)):
     uuid_ = str(uuid.uuid4())
     redis.set(input.email, uuid_, ex=3600)
@@ -42,15 +47,31 @@ async def crate_session(input: SessionInput, redis: Redis = Depends(get_redis)):
     }
 
 
-@app.get("/hello/{name}")
-async def get_name(name: str):
+class ListResponse(BaseModel, Generic[T]):
+    data: list[T]
+
+
+class PromptItem(BaseModel):
+    text: str
+    title: str
+
+
+@app.get("/prompts", status_code=status.HTTP_200_OK, response_model=ListResponse[PromptItem])
+async def get_prompts(redis: Redis = Depends(get_redis)):
+    prompts = generate_prompts()
     return {
-        "name": name,
+        "data": prompts
     }
 
 
-@app.get("/bye/{name}")
-async def say_bye(name: str):
+class PromptImage(BaseModel):
+    prompt: str
+
+
+@app.post("/images", status_code=status.HTTP_201_CREATED)
+async def create_image(input: PromptImage, redis: Redis = Depends(get_redis)):
+    url = generate_image(input.prompt)
+
     return {
-        "name": name,
+        "image_url": url,
     }
