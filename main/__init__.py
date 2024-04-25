@@ -15,3 +15,10 @@ async def get_name(name: str):
     return {
         "name": name,
     }
+
+
+@app.get("/bye/{name}")
+async def say_bye(name: str):
+    return {
+        "name": name,
+    }
