@@ -9,6 +9,7 @@ from main.services.cache import ICacheService, RedisCacheService
 
 CACHE_PROMPTS_KEY = "prompts"
 CACHE_IMAGES_GENERATED_KEY = "images"
+TTL_IMAGES_GENERATED = 1800
 
 client = OpenAI(
     api_key=os.environ['OPENAI_API_KEY']
@@ -99,12 +100,12 @@ def __get_images_from_cache(key: str) -> list:
 
 def __add_images_in_cache(key: str, image_url: str) -> None:
     if not __exists_images_in_cache(key):
-        cache_service.set_ttl(180).save(
+        cache_service.set_ttl(TTL_IMAGES_GENERATED).save(
             __cache_images_key_by_session(key), json.dumps([image_url]))
     else:
         images = __get_images_from_cache(key)
         images.append(image_url)
-        cache_service.set_ttl(180).save(
+        cache_service.set_ttl(TTL_IMAGES_GENERATED).save(
             __cache_images_key_by_session(key), json.dumps(images))
 
 
@@ -132,3 +133,10 @@ def generate_image(prompt_from_user: str, session_uuid: str) -> str | None:
     __add_images_in_cache(session_uuid, image_url)
 
     return image_url
+
+
+def get_images(session_uuid: str) -> list:
+    if __exists_images_in_cache(session_uuid):
+        return __get_images_from_cache(session_uuid)
+
+    return []

@@ -10,15 +10,23 @@ Content-Type: application/json
 GET http://localhost:7071/prompts
 Content-Type: application/json
 Accept: application/json
-x-session-token: 450367a5-26ce-4657-86dc-e4bebe5daf8f
+x-session-token: 0df413e4-45b9-423c-9838-63eb15c9dcdb
 
 
 ###
 
 POST http://localhost:7071/images
 Content-Type: application/json
-x-session-token: 81aca89c-61a0-4ade-a441-7a1d00d72090
+x-session-token: 0df413e4-45b9-423c-9838-63eb15c9dcdb
 
 {
     "prompt": "Crea una escena de aventura intergaláctica con naves espaciales, planetas lejanos y seres extraterrestres amigables o hostiles."
 }
+
+
+###
+
+
+GET http://localhost:7071/images
+Content-Type: application/json
+x-session-token: 0df413e4-45b9-423c-9838-63eb15c9dcdb
