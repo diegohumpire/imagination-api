@@ -19,11 +19,13 @@ def generate_prompts_json() -> dict:
                 "content": """Give me a list of 6 examples of prompts that you can use to generate creative images.
                 Each prompt text must have 15 words at least.
                 Do it in JSON format, each object must have a title and text field inside 'prompts' key.
-                Each prompt must be unique and in spanish."""
+                Each prompt must be in spanish."""
             }
         ],
-        temperature=0.0,
-        max_tokens=1000
+        temperature=0.4,
+        max_tokens=800,
+        frequency_penalty=1.0,
+        presence_penalty=0.5,
     )
 
     logging.info(completion.choices[0].message.content)
@@ -37,12 +39,12 @@ def generate_prompts() -> list:
     tries = 1
     data = generate_prompts_json()
 
-    logging.info(f"Try: {tries}")
+    logging.info(f"------ Try: {tries}")
 
     while "prompts" not in data and not isinstance(data["prompts"], list):
         tries += 1
         data = generate_prompts_json()
-        logging.info(f"Try: {tries}")
+        logging.info(f"------ Try: {tries}")
 
     return data.get("prompts", [])
 
