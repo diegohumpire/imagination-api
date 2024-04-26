@@ -6,6 +6,7 @@ redis = get_redis_connection()
 
 EMAIL_KEY: str = "emails"
 SESSION_KEY: str = "sessions"
+TTL_SESSION_SECONDS: int = 600
 
 
 def __email_prefix(email: str) -> str:
@@ -31,8 +32,8 @@ def create_session_from_email(email: str) -> str:
         return get_session_by_email(email)
 
     uuid_ = str(uuid.uuid4())
-    redis.set(__email_prefix(email), uuid_, ex=300)
-    redis.set(__session_prefix(uuid_), email, ex=300)
+    redis.set(__email_prefix(email), uuid_, ex=TTL_SESSION_SECONDS)
+    redis.set(__session_prefix(uuid_), email, ex=TTL_SESSION_SECONDS)
 
     return uuid_
 
