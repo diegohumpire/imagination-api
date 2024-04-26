@@ -9,7 +9,7 @@ from main.services.cache import ICacheService, RedisCacheService
 
 CACHE_PROMPTS_KEY = "prompts"
 CACHE_IMAGES_GENERATED_KEY = "images"
-TTL_IMAGES_GENERATED = 1800
+TTL_IMAGES_GENERATED = 600
 
 client = OpenAI(
     api_key=os.environ['OPENAI_API_KEY']
