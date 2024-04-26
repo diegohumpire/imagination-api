@@ -5,6 +5,7 @@ Azure Function App that uses the [Imagination APP](https://github.com/diegohumpi
 ## Requirements
 
 -   Python 3.11
+-   See environment variables section for more details
 
 ## Environment Variables
 
