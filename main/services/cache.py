@@ -1,7 +1,7 @@
 import abc
 from ..databases.redis_db import get_redis_connection
 
-TTL_SECONDS = 30
+TTL_SECONDS = 90
 
 
 class ICacheService(abc.ABC):
